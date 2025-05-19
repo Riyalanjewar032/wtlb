@@ -1,0 +1,79 @@
+//question 
+Design and develop a responsive website for an online Grocery Shop using JavaScript, PHP
+and MySQL having 1) Home Page2) Login Page 3) Catalogue Page: 4) Registration Pag.
+Create two tables: Consumer and Items
+
+Run this SQL in your MySQL database:
+
+sql
+Copy
+Edit
+CREATE TABLE consumer (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    password VARCHAR(255)
+);
+
+CREATE TABLE items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2)
+);
+ Project Setup Instructions
+1. Download & Extract
+Download the project zip file:
+📦 GroceryShop.zip
+
+Extract it to your web server directory:
+
+For XAMPP: C:\xampp\htdocs\GroceryShop
+
+For WAMP: C:\wamp\www\GroceryShop
+
+2. Start Apache and MySQL
+Open XAMPP Control Panel
+
+Click Start next to Apache and MySQL
+
+3. Create Database and Tables
+Open phpMyAdmin in your browser:
+http://localhost/phpmyadmin
+
+Click New, name your database: groceryshop, and click Create
+
+Run the following SQL queries in the SQL tab:
+
+sql
+Copy
+Edit
+CREATE TABLE consumer (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    password VARCHAR(255)
+);
+
+CREATE TABLE items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2)
+);
+
+-- Optional: Insert sample items
+INSERT INTO items (name, price) VALUES
+('Rice', 45.00),
+('Wheat Flour', 40.00),
+('Milk', 25.00),
+('Eggs (6 pack)', 30.00);
+4. Run the Website
+In your browser, go to:
+👉 http://localhost/GroceryShop
+
+You will see the Home Page with links to:
+
+Login
+
+Register
+
+Catalogue
