@@ -1,0 +1,85 @@
+Qestion:-Design and develop a responsive website for an online Grocery Shop using React, NodeJS
+and and MySQL having 1) Home Page2) Login Page 3) Catalogue Page: 4) Registration Page:
+(database). Create two tables: Consumer and Items
+Requirements
+Node.js (v16+)
+
+MySQL (installed & running)
+
+VS Code with ESLint, Prettier, and optionally MySQL extension
+
+📂 Project Structure
+Copy code
+grocery-shop-node/
+├── backend/        → Node.js + Express backend
+├── frontend/       → React frontend
+🛠️ Backend Setup (Node.js + MySQL)
+1. Create the MySQL Database
+Open your MySQL client (Workbench, CLI, phpMyAdmin) and run:
+
+sql
+Copy code
+CREATE DATABASE grocery_db;
+
+CREATE TABLE consumer (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(100),
+  email VARCHAR(100) UNIQUE,
+  password VARCHAR(100)
+);
+
+CREATE TABLE item (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  price DECIMAL(10, 2),
+  image_url VARCHAR(255)
+);
+
+-- Optionally insert sample items
+INSERT INTO item (name, price, image_url) VALUES 
+('Rice', 25.50, 'https://via.placeholder.com/100'),
+('Milk', 15.00, 'https://via.placeholder.com/100');
+2. Configure Environment
+In the /backend/.env file, update your MySQL credentials:
+
+env
+Copy code
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=grocery_db
+PORT=5000
+3. Install Backend Dependencies
+In terminal:
+
+bash
+Copy code
+cd backend
+npm install
+4. Run the Backend
+bash
+Copy code
+npm start
+If successful, API runs at: http://localhost:5000/api
+
+🌐 Frontend Setup (React + Vite)
+1. Install Frontend Dependencies
+bash
+Copy code
+cd ../frontend
+npm install
+2. Start the Frontend
+bash
+Copy code
+npm run dev
+Visit:
+
+arduino
+Copy code
+http://localhost:5173/
+🔍 Key Routes
+Page	URL	Description
+Home	/	Welcome screen
+Register	/register	Create user (saved in DB)
+Login	/login	Log in with existing user
+Catalogue	/catalogue	View item list (from DB)
