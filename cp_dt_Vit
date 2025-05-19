@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VIT Projects - Course & DT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Optional custom style -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light p-4">
+
+  <div class="container">
+    <h2 class="text-center mb-4">VIT Projects: Course & DT</h2>
+
+    <!-- Nav Pills -->
+    <ul class="nav nav-pills mb-3" id="projectTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="course-tab" data-bs-toggle="pill" data-bs-target="#course" type="button" role="tab">Course Projects</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="dt-tab" data-bs-toggle="pill" data-bs-target="#dt" type="button" role="tab">DT Projects</button>
+      </li>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content" id="projectTabsContent">
+      <!-- Course Projects Tab -->
+      <div class="tab-pane fade show active" id="course" role="tabpanel">
+        <textarea id="courseInput" class="form-control mb-2" rows="5" placeholder="Enter relevance of Course Projects..."></textarea>
+        <button class="btn btn-primary mb-3" onclick="saveData('course')">Save Course Project</button>
+        <div id="courseOutput" class="alert alert-secondary"></div>
+      </div>
+
+      <!-- DT Projects Tab -->
+      <div class="tab-pane fade" id="dt" role="tabpanel">
+        <textarea id="dtInput" class="form-control mb-2" rows="5" placeholder="Enter relevance of DT Projects..."></textarea>
+        <button class="btn btn-success mb-3" onclick="saveData('dt')">Save DT Project</button>
+        <div id="dtOutput" class="alert alert-secondary"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS + jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="script.js"></script>
+</body>
+</html>
