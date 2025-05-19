@@ -1,0 +1,1 @@
+fetch('php/items.php').then(res => res.text()).then(data => document.getElementById('items').innerHTML = data);

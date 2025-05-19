@@ -1,0 +1,1 @@
+<?php $conn = new mysqli('localhost', 'root', '', 'groceryshop'); if ($conn->connect_error) die('Connection failed'); ?>
