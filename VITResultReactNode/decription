@@ -1,0 +1,53 @@
+questionDesign and develop a responsive website to prepare one semester result of VIT students
+using React, NodeJS and MySQL. Take any four subjects with MSE Marks (30%) ESE Marks
+(70%). Create three tables: Students, MSE and ESE.
+// Database Setup (MySQL)
+Create a database named vit and these tables:
+
+sql
+Copy
+Edit
+CREATE TABLE students (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  rollNumber VARCHAR(20) NOT NULL,
+  name VARCHAR(100)
+);
+
+CREATE TABLE mse (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  studentId INT,
+  subject VARCHAR(50),
+  marks FLOAT,
+  FOREIGN KEY (studentId) REFERENCES students(id)
+);
+
+CREATE TABLE ese (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  studentId INT,
+  subject VARCHAR(50),
+  marks FLOAT,
+  FOREIGN KEY (studentId) REFERENCES students(id)
+);
+2. Backend Setup (NodeJS)
+Navigate to /backend
+
+Run:
+
+bash
+Copy
+Edit
+npm install
+node server.js
+Make sure to update your MySQL username and password in backend/models/db.js
+
+3. Frontend Setup (React)
+Navigate to /frontend
+
+Run:
+
+bash
+Copy
+Edit
+npm install
+npm start
+React app will run on http://localhost:3000
