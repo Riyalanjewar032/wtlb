@@ -1,0 +1,118 @@
+question:-
+Design and develop a responsive website for an online Grocery Shop using React,
+SpringBoot and MySQL having 1) Home Page2) Login Page 3) Catalogue Page: 4)
+Registration Page: (database). Create two tables: Consumer and Items
+MySQL Schema
+sql
+Copy code
+CREATE DATABASE grocery_db;
+
+USE grocery_db;
+
+CREATE TABLE consumer (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(100)
+);
+
+CREATE TABLE item (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price DOUBLE,
+    image_url VARCHAR(255)
+);
+
+-- Sample Data
+INSERT INTO item (name, price, image_url) VALUES
+('Apples', 1.99, 'https://via.placeholder.com/150'),
+('Bananas', 0.99, 'https://via.placeholder.com/150');
+📦 4. Setup Instructions
+✅ Backend Setup
+Open backend/ in IntelliJ or VS Code.
+
+Run mvn clean install
+
+Run the Spring Boot app.
+
+MySQL must be running (Update application.properties accordingly).
+
+✅ Frontend Setup
+Open frontend/ in terminal.
+
+Run:
+
+bash
+Copy code
+npm install
+npm run dev
+✅ API Base URL
+Ensure React requests point to http://localhost:8080/api.
+//option 2
+ Step-by-Step Setup in VS Code
+📁 1. Extract the Project
+Unzip grocery-shop.zip
+
+Open the extracted grocery-shop folder in VS Code.
+
+🔙 Backend Setup (Spring Boot)
+🔹 Navigate to backend folder:
+bash
+Copy code
+cd backend
+🔹 Update application.properties:
+Go to src/main/resources/application.properties and set your MySQL credentials:
+
+properties
+Copy code
+spring.datasource.url=jdbc:mysql://localhost:3306/grocery_db
+spring.datasource.username=root
+spring.datasource.password=your_mysql_password
+🔹 Create the MySQL Database
+Login to MySQL and run:
+
+sql
+Copy code
+CREATE DATABASE grocery_db;
+Optional: Add sample items as shown in our earlier schema.
+
+🔹 Run the Backend
+In the terminal from the backend/ folder:
+
+bash
+Copy code
+./mvnw spring-boot:run  # Mac/Linux
+mvn spring-boot:run     # Windows (if mvnw not executable)
+If successful, your API will be running at:
+
+bash
+Copy code
+http://localhost:8080/api
+🌐 Frontend Setup (React)
+🔹 Navigate to frontend folder:
+bash
+Copy code
+cd ../frontend
+🔹 Install dependencies:
+bash
+Copy code
+npm install
+🔹 Run the frontend server:
+bash
+Copy code
+npm run dev
+React app will start at:
+
+arduino
+Copy code
+http://localhost:5173/
+📌 Pages
+http://localhost:5173/ → Home
+
+http://localhost:5173/register → Register
+
+http://localhost:5173/login → Login
+
+http://localhost:5173/catalogue → Items
+
+
