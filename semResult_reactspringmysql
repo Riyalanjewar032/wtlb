@@ -1,0 +1,256 @@
+// Database Schema (MySQL)
+📌 1. students Table
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    roll_number VARCHAR(20) UNIQUE
+);
+2. mse Table
+CREATE TABLE mse (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    subject VARCHAR(50),
+    marks INT,
+    FOREIGN KEY (student_id) REFERENCES students(id)
+);
+3.ese Table
+CREATE TABLE ese (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    subject VARCHAR(50),
+    marks INT,
+    FOREIGN KEY (student_id) REFERENCES students(id)
+);
+🧩 Spring Boot Backend (Java)
+🔧 Project Setup
+Use Spring Initializr: https://start.spring.io
+
+Dependencies: Spring Web, Spring Data JPA, MySQL Driver, Lombok
+//structure
+src/
+└── main/
+    └── java/
+        └── com/
+            └── vit/
+                └── result/
+                    ├── model/           <-- ✅ ENTITY CLASSES
+                    │   ├── Student.java
+                    │   ├── MSE.java
+                    │   └── ESE.java
+                    ├── repository/      <-- ✅ JPA REPOSITORIES
+                    │   ├── StudentRepository.java
+                    │   ├── MSERepository.java
+                    │   └── ESERepository.java
+                    ├── service/         <-- (optional) BUSINESS LOGIC
+                    ├── controller/      <-- ✅ REST API CONTROLLERS
+                    │   └── ResultController.java
+                    └── VITResultApplication.java
+
+//student.java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String rollNumber;
+}
+//MSE.java & ESE.java (similar)
+
+@Entity
+public class MSE {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long studentId;
+    private String subject;
+    private int marks;
+}
+//REST Controller Example
+
+@RestController
+@RequestMapping("/api/results")
+public class ResultController {
+    
+    @Autowired private StudentRepository studentRepo;
+    @Autowired private MSERepository mseRepo;
+    @Autowired private ESERepository eseRepo;
+
+    @GetMapping("/{rollNumber}")
+    public ResponseEntity<?> getSemesterResult(@PathVariable String rollNumber) {
+        Student student = studentRepo.findByRollNumber(rollNumber);
+        if (student == null) return ResponseEntity.notFound().build();
+
+        List<MSE> mseList = mseRepo.findByStudentId(student.getId());
+        List<ESE> eseList = eseRepo.findByStudentId(student.getId());
+
+        Map<String, Double> finalMarks = new HashMap<>();
+        for (MSE m : mseList) {
+            for (ESE e : eseList) {
+                if (m.getSubject().equals(e.getSubject())) {
+                    double total = m.getMarks() * 0.3 + e.getMarks() * 0.7;
+                    finalMarks.put(m.getSubject(), total);
+                }
+            }
+        }
+
+        return ResponseEntity.ok(Map.of(
+            "student", student,
+            "result", finalMarks
+        ));
+    }
+}
+
+//React Frontend
+⚙️ Setup
+npx create-react-app vit-result-app
+cd vit-result-app
+npm install axios bootstrap
+(npx create-react-app my-react-app)
+import React, { useState } from 'react';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+function App() {
+  const [roll, setRoll] = useState('');
+  const [result, setResult] = useState(null);
+
+  const fetchResult = async () => {
+    const res = await axios.get(`http://localhost:8080/api/results/${roll}`);
+    setResult(res.data);
+  };
+
+  return (
+    <div className="container mt-5">
+      <h2>VIT Semester Result Portal</h2>
+      <input
+        className="form-control"
+        type="text"
+        placeholder="Enter Roll Number"
+        value={roll}
+        onChange={(e) => setRoll(e.target.value)}
+      />
+      <button className="btn btn-primary mt-2" onClick={fetchResult}>
+        Get Result
+      </button>
+
+      {result && (
+        <div className="mt-4">
+          <h4>Student: {result.student.name}</h4>
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Final Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(result.result).map(([subject, mark]) => (
+                <tr key={subject}>
+                  <td>{subject}</td>
+                  <td>{mark.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+Run the Project
+✅ Backend (Spring Boot)
+Start MySQL (localhost, port 3306)
+
+Update application.properties:
+spring.datasource.url=jdbc:mysql://localhost:3306/vit
+spring.datasource.username=root
+spring.datasource.password=yourpassword
+spring.jpa.hibernate.ddl-auto=update
+
+//Run the Spring Boot application:
+
+bash
+Copy
+Edit
+./mvnw spring-boot:run
+✅ Frontend (React)
+
+npm start
+Open: http://localhost:3000
+GET http://localhost:8080/api/results/21CE1234
+
+//ResultController.java
+package com.vit.result.controller;
+
+import com.vit.result.model.*;
+import com.vit.result.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
+
+@RestController
+@RequestMapping("/api/results")
+public class ResultController {
+
+    @Autowired private StudentRepository studentRepo;
+    @Autowired private MSERepository mseRepo;
+    @Autowired private ESERepository eseRepo;
+
+    @GetMapping("/{rollNumber}")
+    public ResponseEntity<?> getSemesterResult(@PathVariable String rollNumber) {
+        Student student = studentRepo.findByRollNumber(rollNumber);
+        if (student == null) return ResponseEntity.notFound().build();
+
+        List<MSE> mseList = mseRepo.findByStudentId(student.getId());
+        List<ESE> eseList = eseRepo.findByStudentId(student.getId());
+
+        Map<String, Double> finalMarks = new HashMap<>();
+        for (MSE m : mseList) {
+            for (ESE e : eseList) {
+                if (m.getSubject().equals(e.getSubject())) {
+                    double total = m.getMarks() * 0.3 + e.getMarks() * 0.7;
+                    finalMarks.put(m.getSubject(), total);
+                }
+            }
+        }
+
+        return ResponseEntity.ok(Map.of("student", student, "result", finalMarks));
+    }
+}
+
+//studentRespoitoty.java
+package com.vit.result.repository;
+
+import com.vit.result.model.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentRepository extends JpaRepository<Student, Long> {
+    Student findByRollNumber(String rollNumber);
+}
+//mse.java
+package com.vit.result.repository;
+
+import com.vit.result.model.MSE;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface MSERepository extends JpaRepository<MSE, Long> {
+    List<MSE> findByStudentId(Long studentId);
+}
+//ese.java
+package com.vit.result.repository;
+
+import com.vit.result.model.ESE;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ESERepository extends JpaRepository<ESE, Long> {
+    List<ESE> findByStudentId(Long studentId);
+}
